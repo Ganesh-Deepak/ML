@@ -5,3 +5,17 @@ https://drive.google.com/drive/folders/1fnKv_3DTv5FnC1XM7mfoaz8CJpKf899F
 https://uvadlc-notebooks.readthedocs.io/en/latest/tutorial_notebooks/tutorial17/SimCLR.html
 
 https://roboticsbackend.com/create-a-ros-driver-package-introduction-what-is-a-ros-wrapper-1-4/#:~:text=A%20ROS%20wrapper%20is%20simply,ROS%20features%20to%20hardware%20drivers.
+
+
+I have included 3 papers along with the dataset, kindly check them.
+1.
+https://mwidataset.weebly.com/
+https://drive.google.com/
+
+The first one belongs to the paper we were trying to find, as the readme section of the dataset contains a link that I mentioned above which directs to the required paperwork.
+
+2.  Weather Classification: A new multi-class dataset, data augmentation approach, and comprehensive evaluations of Convolutional Neural Networks 
+https://drive.google.com/file/
+
+3.  Multi-Class Weather Classification Using ResNet-18 CNN for Autonomous IoT and CPS Applications 
+https://drive.google.com/

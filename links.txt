@@ -4,3 +4,4 @@ https://drive.google.com/drive/folders/1fnKv_3DTv5FnC1XM7mfoaz8CJpKf899F
 
 https://uvadlc-notebooks.readthedocs.io/en/latest/tutorial_notebooks/tutorial17/SimCLR.html
 
+https://roboticsbackend.com/create-a-ros-driver-package-introduction-what-is-a-ros-wrapper-1-4/#:~:text=A%20ROS%20wrapper%20is%20simply,ROS%20features%20to%20hardware%20drivers.

@@ -20,11 +20,14 @@ from PIL import Image
 
 
 
-dir= '/home/ameeth/WC'
+#dir= '/home/ameeth/WC/Final_Dataset'
+#dir='/home/ameeth/WC/MWI'
+dir='/home/ganesh/ML-main/MCWRD'
 
-#categories=['Cloud','Rain','Shine','Sunrise']
-categories=['Cloud','Rain','Sandstorm','Sunrise','Foggy']
 
+categories=['Cloudy','Rain','Sunrise','Shine']
+#categories=['HAZE','RAINY','SUNNY','SNOWY']
+#categories=['Cloudy','Foggy','Sunny','Snowy','Rainy']
 data=[]
 
 # Load the pretrained model
@@ -82,11 +85,12 @@ for category in categories:
 		
 print(len(data))		
 
-pick_in=open('5sandstorm.pickle','wb')
+pick_in=open('resnet18_1125.pickle','wb')
 pickle.dump(data,pick_in)
 pick_in.close()
 
 ##########################################################################################################################################################################
+'''
 import os
 import numpy as np
 import cv2
@@ -110,7 +114,7 @@ from PIL import Image
 dir= '/home/ameeth/WC'
 
 #categories=['Cloud','Rain','Shine','Sunrise','Snow','Sandstorm','Foggy','Fog_Smog','Lightning']
-categories=['Cloud','Rain','Sandstorm','Sunrise','Foggy']
+categories=['Cloud','Rain','Sunrise','Foggy']
 data=[]
 
 # Load the pretrained model
@@ -192,6 +196,66 @@ for category in categories:
 
 print(len(data))
 print(type(data[0]))
-pick_in=open('5sandstorm_hog.pickle','wb')
+pick_in=open('4class_hog.pickle','wb')
+pickle.dump(data,pick_in)
+pick_in.close()
+'''
+##########################################################################################################################################################################
+import os
+import numpy as np
+import cv2
+import matplotlib.pyplot as plt
+from skimage.transform import resize
+from skimage.feature import hog
+from skimage import exposure
+from skimage.io import imread, imshow
+import pickle
+import random
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import confusion_matrix
+
+import torch
+import torch.nn as nn
+import torchvision.models as models
+import torchvision.transforms as transforms
+from torch.autograd import Variable
+from PIL import Image
+
+
+
+#dir= '/home/ameeth/WC/Final_Dataset'
+#dir='/home/ameeth/WC/MWI'
+#dir='/home/ameeth/WC/Dataset_5000'
+
+dir='/home/ganesh/ML-main/MCWRD'
+
+
+categories=['Cloudy','Rain','Sunrise','Shine']
+
+#categories=['Cloud','Rain','Shine','Sunrise']
+#categories=['Cloud','Rain','Sunrise','Foggy']
+#categories=['HAZE','RAINY','SUNNY','SNOWY']
+#categories=['Cloudy','Foggy','Sunny','Snowy','Rainy']
+data=[]
+
+def hog_vector(image_name):
+	img=Image.open(image_name)
+	img=img.convert("RGB")
+	scaler=transforms.Resize(size=(128,64))
+	resized_img=scaler(img)
+	fd, hog_image = hog(resized_img, orientations=9, pixels_per_cell=(8, 8), cells_per_block=(2, 2), visualize=True, multichannel=True)
+	return fd
+for category in categories:
+	path= os.path.join(dir, category)
+	label=categories.index(category)
+	
+	for image in os.listdir(path):
+			image_path=os.path.join(path,image)
+			image_vector=get_vector(image_path)
+			hog_feature=hog_vector(image_path)
+			data.append([hog_feature,label])
+
+print(len(data))
+pick_in=open('hog_1125.pickle','wb')
 pickle.dump(data,pick_in)
 pick_in.close()

@@ -39,8 +39,8 @@ pick_in=open('hog_1125.pickle','rb')
 data2=pickle.load(pick_in)
 pick_in.close()
 
-random.shuffle(data1)
-random.shuffle(data2)
+#random.shuffle(data1)
+#random.shuffle(data2)
 features_hog=[]
 features_resnet=[]
 labels_hog=[]
@@ -58,9 +58,14 @@ print(len(features_hog[0]))
 print(len(labels_hog), len(labels_resnet))
 norm1=normalize(features_resnet)
 norm2=normalize(features_hog)
-pca=PCA(n_components=0.95)
-px1=pca.fit_transform(norm1)
-px2=pca.fit_transform(norm2)
+pca1=PCA(n_components=0.95)
+
+px1=pca1.fit_transform(norm1)
+pickle.dump(pca1, open("pca1.pickle","wb"))
+
+pca2=PCA(n_components=0.95)
+px2=pca2.fit_transform(norm2)
+pickle.dump(pca2, open("pca2.pickle","wb"))
 print(px1.shape,px2.shape)
 
 accuracies={}
@@ -71,11 +76,11 @@ print(reduced_features.shape)
 red_feat=pd.DataFrame(reduced_features)
 print(red_feat.head())
 #norm=normalize(reduced_features)
-px=pca.fit_transform(reduced_features)
+#px=pca.fit_transform(reduced_features)
 #print(labels_hog)
 #print(labels_resnet)
 #print(px.shape)
-
+'''
 from sklearn.feature_selection import SelectPercentile as SP
 selector = SP(percentile=65) # select features with top 50% MI scores
 
@@ -88,10 +93,10 @@ xtrain,xtest,ytrain,ytest = train_test_split(
     ,stratify=labels_resnet
 )
 print(xtrain.shape)
+'''
 
-
-#xtrain,xtest, ytrain,ytest=train_test_split(reduced_features,labels_resnet,test_size=0.25,random_state=42)
-
+xtrain,xtest, ytrain,ytest=train_test_split(reduced_features,labels_resnet,test_size=0.25,random_state=42)
+'''
 from sklearn.svm import SVC
 model=SVC(C=1,kernel='linear',gamma='auto')
 model.fit(xtrain,ytrain)
@@ -130,7 +135,29 @@ accuracies["SVM"]=max(scores.max(),accuracy1)
 prediction=cross_val_predict(clf,reduced_features,labels_resnet)
 cm=confusion_matrix(labels_resnet,prediction)
 print(cm)
+'''
 ##########################################################################################################################################################################
+
+from joblib import Parallel, delayed
+import joblib
+ 
+ 
+# Save the model as a pickle in a file
+#joblib.dump(model, 'svm_model.pkl')
+ 
+# Load the model from the file
+svm_from_joblib = joblib.load('svm_model.pkl')
+print(svm_from_joblib)
+ 
+# Use the loaded model to make predictions
+pred=svm_from_joblib.predict(xtest)
+acc=svm_from_joblib.score(xtest,ytest)
+print(acc)
+
+cm=confusion_matrix(ytest,pred)
+print(cm)
+##########################################################################################################################################################################
+'''
 k=6
 from sklearn.ensemble import RandomForestClassifier
 rfc_model=RandomForestClassifier(max_depth=7,n_estimators=600)
@@ -329,7 +356,7 @@ prediction=cross_val_predict(clf,reduced_features,labels_resnet)
 cm=confusion_matrix(labels_resnet,prediction)
 print(cm)
 
-
+'''
 
 
 ##########################################################################################################################################################################
@@ -384,7 +411,7 @@ print(cm)
 
 '''
 ##########################################################################################################################################################################
-
+'''
 print(accuracies)
 
 models = list(accuracies.keys())
@@ -418,4 +445,4 @@ for bar in fig.patches:
 #plt.ylabel("Accuracy")
 plt.title("Accuracies For Each Classifier")
 plt.show()
-
+'''
